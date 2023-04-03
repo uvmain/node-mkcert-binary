@@ -1,4 +1,4 @@
-# caddy-baron
+# node-mkcert-binary
 Downloads the mkcert binary for use in npm/npx scripts
 
 - Downloads the latest version of mkcert
