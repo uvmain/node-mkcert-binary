@@ -1,0 +1,30 @@
+{
+  "name": "node-mkcert-binary",
+  "version": "1.0.0",
+  "description": "Install mkcert",
+  "main": "index.mjs",
+  "scripts": {
+    "postinstall": "node index.mjs postinstall",
+    "preuninstall": "node index.mjs preuninstall"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ianbaron/node-mkcert-binary.git"
+  },
+  "keywords": [
+    "mkcert",
+    "ssl",
+    "certificate",
+    "tls"
+  ],
+  "author": "Ian Baron",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ianbaron/node-mkcert-binary/issues"
+  },
+  "homepage": "https://github.com/ianbaron/node-mkcert-binary#readme",
+  "dependencies": {
+    "got": "^12.6.0",
+    "node-downloader-helper": "^2.1.6"
+  }
+}
