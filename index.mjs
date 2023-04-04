@@ -14,15 +14,8 @@ switch (process.argv[2]) {
     const version = latest.tag_name;
 
     // build mkcert download string
-    let platform = 'linux';
+    let platform = process.platform;
     let arch = 'amd64';
-
-    switch(process.platform) {
-      case 'darwin':
-        platform = 'mac';
-      case 'windows':
-        platform = 'win32';
-    }
 
     switch(process.arch) {
       case 'arm64': arch = 'arm64';
@@ -39,7 +32,7 @@ switch (process.argv[2]) {
       if (err) throw err;
     });
 
-    const saveString = (platform === 'windows') ? 'mkcert.exe' : 'mkcert'
+    const saveString = (platform === 'win32') ? 'mkcert.exe' : 'mkcert'
 
     const dl = new ndh.DownloaderHelper(downloadString, downloadDir);
     dl.on('error', (err) => console.log('Mkcert Download Failed', err));
