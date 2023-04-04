@@ -1,6 +1,5 @@
-import fs from 'fs';
-import got from 'got';
-import ndh from 'node-downloader-helper';
+import fs, { createWriteStream } from 'fs';
+import got, { create } from 'got';
 
 let downloadDir = process.cwd().split('node-mkcert-binary')[0];
 downloadDir = `${downloadDir}.bin`;
@@ -15,35 +14,41 @@ switch (process.argv[2]) {
 
     // build mkcert download string
     let platform = process.platform;
-    if (platform === 'win32')
-      platform = 'windows'
+    let saveString = 'mkcert';
 
-    let arch = 'amd64';
-
-    switch(process.arch) {
-      case 'arm64': arch = 'arm64';
-      case 'arm': arch = 'arm';
-    }
+    const arch = (process.arch == 'x64') ? 'amd64' : process.arch
 
     let fileString = `mkcert-${version}-${platform}-${arch}`;
-    if (platform === 'windows')
-      fileString = `${fileString}.exe`
 
-    console.log(fileString)
+    if (platform === 'win32') {
+      fileString = `mkcert-${version}-windows-${arch}.exe`;
+      saveString = 'mkcert.exe';
+    }
+
+    console.log(fileString);
 
     const downloadString = `https://github.com/FiloSottile/mkcert/releases/download/${version}/${fileString}`;
 
-    console.log(downloadString)
+    console.log(downloadString);
 
     fs.mkdir(downloadDir, { recursive: true }, (err) => {
       if (err) throw err;
     });
 
-    const saveString = (platform === 'win32') ? 'mkcert.exe' : 'mkcert'
+    const downloadStream = got.stream(downloadString)
+    const fileStream = createWriteStream(`${downloadDir}/${saveString}`)
 
-    const dl = new ndh.DownloaderHelper(downloadString, downloadDir);
-    dl.on('error', (err) => console.log('Mkcert Download Failed', err));
-    dl.start().catch(err => console.error(err));
+    downloadStream
+      .on('error', (error) => {
+        console.log(`Failed to download mkcert: ${error}`)
+      })
+    fileStream
+    .on('error', (error) => {
+      console.log(`Failed to download mkcert: ${error}`)
+    })
+
+    downloadStream.pipe(fileStream)
+
     break;
 
   case "preuninstall":
