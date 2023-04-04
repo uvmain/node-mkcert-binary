@@ -15,6 +15,9 @@ switch (process.argv[2]) {
 
     // build mkcert download string
     let platform = process.platform;
+    if (platform === 'win32')
+      platform = 'windows'
+
     let arch = 'amd64';
 
     switch(process.arch) {
@@ -22,11 +25,15 @@ switch (process.argv[2]) {
       case 'arm': arch = 'arm';
     }
 
-    const fileString = `mkcert-${version}-${platform}-${arch}`;
+    let fileString = `mkcert-${version}-${platform}-${arch}`;
     if (platform === 'windows')
       fileString = `${fileString}.exe`
 
+    console.log(fileString)
+
     const downloadString = `https://github.com/FiloSottile/mkcert/releases/download/${version}/${fileString}`;
+
+    console.log(downloadString)
 
     fs.mkdir(downloadDir, { recursive: true }, (err) => {
       if (err) throw err;
