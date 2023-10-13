@@ -24,6 +24,6 @@
   },
   "homepage": "https://github.com/ianbaron/node-mkcert-binary#readme",
   "dependencies": {
-    "got": "^12.6.0"
+    "got": "^13.0.0"
   }
 }
