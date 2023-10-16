@@ -1,10 +1,11 @@
 {
   "name": "node-mkcert-binary",
-  "version": "1.3.1",
+  "version": "2.0.0",
   "description": "Install mkcert",
   "main": "index.mjs",
   "scripts": {
     "postinstall": "node index.mjs postinstall",
+    "install": "node index.mjs",
     "preuninstall": "node index.mjs preuninstall"
   },
   "repository": {
@@ -22,8 +23,5 @@
   "bugs": {
     "url": "https://github.com/uvmain/node-mkcert-binary/issues"
   },
-  "homepage": "https://github.com/uvmain/node-mkcert-binary#readme",
-  "dependencies": {
-    "got": "^13.0.0"
-  }
+  "homepage": "https://github.com/uvmain/node-mkcert-binary#readme"
 }
