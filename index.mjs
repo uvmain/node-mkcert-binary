@@ -3,15 +3,14 @@ import https from 'https';
 import { URL } from 'url';
 
 let saveString = 'mkcert';
+const options = { headers: { 'User-Agent': 'Node.js' } };
 
 async function getLatestReleaseTag() {
   const latestUrl = new URL('https://api.github.com/repos/FiloSottile/mkcert/releases/latest');
-  latestUrl.headers = { 'User-Agent': 'Node.js' };
 
   return new Promise((resolve, reject) => {
-    https.get(latestUrl, (res) => {
+    const request = https.get(latestUrl, options, (res) => {
       if (res.statusCode === 302 && res.headers.location) {
-        // If a redirect is encountered, resolve with the new URL
         resolve(new URL(res.headers.location));
       } else {
         let rawData = '';
@@ -23,6 +22,10 @@ async function getLatestReleaseTag() {
           resolve(parsedData.tag_name);
         });
       }
+    });
+
+    request.on('error', (error) => {
+      reject(error);
     });
   });
 }
@@ -39,16 +42,13 @@ async function getLatestReleaseUrl() {
   }
 
   const latestUrl = `https://github.com/FiloSottile/mkcert/releases/download/${version}/${fileString}`;
-  console.log(latestUrl);
   return new URL(latestUrl);
 }
 
-async function downloadFile(downloadUrl) {
-  downloadUrl.headers = { 'User-Agent': 'Node.js' };
-  https.get(downloadUrl, (res) => {
+async function downloadFile(downloadUrl, saveString) {
+  const request = https.get(downloadUrl, options, (res) => {
     if (res.statusCode === 302 && res.headers.location) {
-      // If a redirect is encountered, follow the new location
-      downloadFile(new URL(res.headers.location));
+      downloadFile(new URL(res.headers.location), saveString);
     } else if (res.statusCode === 200) {
       const writeStream = fs.createWriteStream(saveString);
 
@@ -62,8 +62,12 @@ async function downloadFile(downloadUrl) {
       console.error(`Failed to download. HTTP status code: ${res.statusCode}`);
     }
   });
+
+  request.on('error', (error) => {
+    console.error('Error:', error);
+  });
 }
 
 const downloadUrl = await getLatestReleaseUrl();
 
-await downloadFile(downloadUrl);
+await downloadFile(downloadUrl, saveString);
