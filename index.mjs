@@ -2,7 +2,10 @@ import fs from 'fs';
 import https from 'https';
 import { URL } from 'url';
 
-let saveString = 'mkcert';
+const platform = process.platform;
+const arch = process.arch === 'x64' ? 'amd64' : process.arch;
+const saveString = (platform === 'win32') ? 'mkcert.exe' : 'mkcert';
+
 const options = { headers: { 'User-Agent': 'Node.js' } };
 
 async function getLatestReleaseTag() {
@@ -32,15 +35,7 @@ async function getLatestReleaseTag() {
 
 async function getLatestReleaseUrl() {
   const version = await getLatestReleaseTag();
-  const platform = process.platform;
-  const arch = process.arch === 'x64' ? 'amd64' : process.arch;
-  let fileString = `mkcert-${version}-${platform}-${arch}`;
-
-  if (platform === 'win32') {
-    fileString = `mkcert-${version}-windows-${arch}.exe`;
-    saveString = 'mkcert.exe';
-  }
-
+  const fileString = (platform === 'win32') ? `mkcert-${version}-windows-${arch}.exe` : `mkcert-${version}-${platform}-${arch}`;
   const latestUrl = `https://github.com/FiloSottile/mkcert/releases/download/${version}/${fileString}`;
   return new URL(latestUrl);
 }
