@@ -25,7 +25,7 @@ function copyCerts() {
     }
     const packageFiles = [ 'mkcert', 'mkcert.js', 'mkcert.exe' ]
     const certFiles = files.filter(file => !packageFiles.includes(file))
-    const parentDir = path.join(__dirname, '..', '..').split('/').pop()
+    const parentDir = path.join(__dirname, '..', '..').split(path.sep).pop()
     if (parentDir === 'node_modules') {
       for (const certFile of certFiles) {
         const sourcePath = path.join(__dirname, certFile)
