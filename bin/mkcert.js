@@ -23,15 +23,17 @@ function copyCerts() {
         console.error('Error reading directory:', err)
         return
     }
-
     const packageFiles = [ 'mkcert', 'mkcert.js', 'mkcert.exe' ]
     const certFiles = files.filter(file => !packageFiles.includes(file))
-    const parentDir = path.join(__dirname, '..', '..')
+    const parentDir = path.join(__dirname, '..', '..').split('/').pop()
     if (parentDir === 'node_modules') {
       for (const certFile of certFiles) {
         const sourcePath = path.join(__dirname, certFile)
         const destinationPath = path.join(path.join(__dirname, '..', '..', '..'), certFile)
-        fs.copyFile(sourcePath, destinationPath)
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+          if (err)
+            console.log('File was not copied to destination');
+        });
       }
     }
   })
