@@ -2,3 +2,4 @@ node_modules
 bin/mkcert
 bin/mkcert.exe
 bin/*.pem
+package-lock.json
