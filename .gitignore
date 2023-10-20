@@ -1,2 +1,4 @@
 node_modules
-bin/mkcert*
+bin/mkcert
+bin/mkcert.exe
+bin/*.pem

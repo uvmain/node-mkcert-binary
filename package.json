@@ -1,12 +1,11 @@
 {
   "name": "node-mkcert-binary",
-  "version": "2.0.9",
+  "version": "2.1.0",
   "description": "Install mkcert",
-  "directories": {
-    "bin": "bin"
+  "bin": {
+    "mkcert": "./bin/mkcert.js"
   },
   "scripts": {
-    "preinstall": "node index.mjs",
     "install": "node index.mjs"
   },
   "repository": {
