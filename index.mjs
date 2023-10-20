@@ -37,4 +37,4 @@ async function downloadFile(downloadUrl, saveString) {
 
 const downloadUrl = await getLatestReleaseUrl();
 
-await downloadFile(downloadUrl, saveString);
+await downloadFile(downloadUrl, `bin/${saveString}`);
