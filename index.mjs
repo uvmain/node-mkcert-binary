@@ -1,8 +1,9 @@
 import fs from 'fs';
 import https from 'https';
 import { URL } from 'url';
+import { execSync } from 'child_process';
 
-const platform = (process.platform === 'win32') ? 'windows' : 'linux';
+const platform = (process.platform === 'win32') ? 'windows' : process.platform;
 const saveString = (process.platform === 'win32') ? 'mkcert.exe' : 'mkcert';
 const arch = process.arch === 'x64' ? 'amd64' : process.arch;
 const options = { headers: { 'User-Agent': 'Node.js' } };
@@ -24,6 +25,9 @@ async function downloadFile(downloadUrl, saveString) {
       writeStream.on('finish', () => {
         writeStream.close();
         console.log('Download Completed');
+        if (process.platform === "win32") {
+          fs.copyFileSync('./mkcert.exe', './mkcert')
+        }
       });
     } else {
       console.error(`Failed to download. HTTP status code: ${res.statusCode}`);
@@ -37,4 +41,4 @@ async function downloadFile(downloadUrl, saveString) {
 
 const downloadUrl = await getLatestReleaseUrl();
 
-await downloadFile(downloadUrl, `bin/${saveString}`);
+await downloadFile(downloadUrl, saveString);
