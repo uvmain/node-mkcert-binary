@@ -1,19 +1,14 @@
 import fs from 'fs';
 import https from 'https';
 import { URL } from 'url';
-import { execSync } from 'child_process';
 
 const platform = (process.platform === 'win32') ? 'windows' : process.platform;
 const saveString = (process.platform === 'win32') ? 'mkcert.exe' : 'mkcert';
 const arch = process.arch === 'x64' ? 'amd64' : process.arch;
 const options = { headers: { 'User-Agent': 'Node.js' } };
+const releaseUrl = new URL(`https://dl.filippo.io/mkcert/latest?for=${platform}/${arch}`);
 
-async function getLatestReleaseUrl() {
-  const latestUrl = `https://dl.filippo.io/mkcert/latest?for=${platform}/${arch}`
-  return new URL(latestUrl);
-}
-
-async function downloadFile(downloadUrl, saveString) {
+async function downloadFile(downloadUrl) {
   const request = https.get(downloadUrl, options, (res) => {
     if ([301, 302].includes(res.statusCode) && res.headers.location) {
       downloadFile(new URL(res.headers.location), saveString);
@@ -26,7 +21,7 @@ async function downloadFile(downloadUrl, saveString) {
         writeStream.close();
         console.log('Download Completed');
         if (process.platform === "win32") {
-          fs.copyFileSync('./mkcert.exe', './mkcert')
+          fs.copyFile('./mkcert.exe', './mkcert', function () {})
         }
       });
     } else {
@@ -39,6 +34,4 @@ async function downloadFile(downloadUrl, saveString) {
   });
 }
 
-const downloadUrl = await getLatestReleaseUrl();
-
-await downloadFile(downloadUrl, saveString);
+await downloadFile(releaseUrl);
