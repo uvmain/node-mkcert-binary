@@ -4,13 +4,13 @@ import { URL } from 'url';
 
 const options = { headers: { 'User-Agent': 'Node.js' } };
 const platform = (process.platform === 'win32') ? 'windows' : process.platform;
-const saveString = (process.platform === 'win32') ? 'mkcert.exe' : 'mkcert';
+const saveString = (process.platform === 'win32') ? './bin/mkcert.exe' : './bin/mkcert';
 const arch = process.arch === 'x64' ? 'amd64' : process.arch;
 const latestUrl = new URL(`https://dl.filippo.io/mkcert/latest?for=${platform}/${arch}`);
 
 function cloneForWindows() {
   if (process.platform === "win32") {
-    fs.copyFile('./mkcert.exe', './mkcert', function () {})
+    fs.copyFile('./bin/mkcert.exe', './bin/mkcert', function () {})
   }
 }
 
