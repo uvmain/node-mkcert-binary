@@ -1,6 +1,6 @@
 {
   "name": "node-mkcert-binary",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "Install mkcert",
   "bin": {
     "mkcert": "./mkcert"
