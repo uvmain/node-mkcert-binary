@@ -1,16 +1,17 @@
 {
   "name": "node-mkcert-binary",
-  "version": "2.1.9",
-  "description": "Install mkcert",
-  "bin": {
-    "mkcert": "./bin/mkcert"
-  },
-  "scripts": {
-    "install": "node index.mjs"
-  },
+  "type": "module",
+  "version": "3.0.0",
+  "description": "Downloads the Mkcert binary for use in npx scripts",
+  "author": "Ian Baron",
+  "license": "MIT",
+  "homepage": "https://github.com/uvmain/node-mkcert-binary#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/uvmain/node-mkcert-binary.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uvmain/node-mkcert-binary/issues"
   },
   "keywords": [
     "mkcert",
@@ -18,10 +19,26 @@
     "certificate",
     "tls"
   ],
-  "author": "Ian Baron",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/uvmain/node-mkcert-binary/issues"
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "caddy": "./caddy"
   },
-  "homepage": "https://github.com/uvmain/node-mkcert-binary#readme"
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "postinstall": "node dist/index.js",
+    "lint": "eslint",
+    "build": "tsc -p .",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^7.7.2",
+    "@types/node": "^25.5.0",
+    "eslint": "^10.0.3",
+    "typescript": "^5.9.3"
+  }
 }
