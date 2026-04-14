@@ -1,7 +1,7 @@
 {
   "name": "node-mkcert-binary",
   "type": "module",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Downloads the Mkcert binary for use in npx scripts",
   "author": "Ian Baron",
   "license": "MIT",
@@ -23,7 +23,7 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "caddy": "./caddy"
+    "mkcert": "./mkcert"
   },
   "files": [
     "dist",
